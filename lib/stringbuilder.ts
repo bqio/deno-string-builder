@@ -11,13 +11,18 @@ export default class StringBuilder {
     this.data = obj;
   }
 
+  assignDataFromFile(filename: string) {
+    Object.assign(this.data, JSON.parse(Deno.readTextFileSync(filename)));
+  }
+
   assignDataFromObject(obj: object) {
     Object.assign(this.data, obj);
   }
 
   build(str: string) {
     if (
-      Object.keys(this.data).length === 0 && this.data.constructor === Object
+      Object.keys(this.data).length === 0 &&
+      this.data.constructor === Object
     ) {
       return Error("Data not loaded.");
     }
@@ -25,9 +30,10 @@ export default class StringBuilder {
     let params = [];
     let reg = /\&{[\W]?([\w\W]+?)[\W]?}/g;
     while ((result = reg.exec(str)) !== null) {
-      params.push(
-        { raw: result[0], val: _.get(this.data, result[1].trim(), null) },
-      );
+      params.push({
+        raw: result[0],
+        val: _.get(this.data, result[1].trim(), null),
+      });
     }
     params.forEach((p) => {
       str = str.replace(p.raw, p.val);

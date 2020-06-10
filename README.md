@@ -11,15 +11,17 @@ const builder = new StringBuilder();
 
 builder.loadDataFromFile("meta.json");
 
-console.log(builder.build("Hello, &{ Company.Name }.")); // Hello, Google.
+console.log(builder.build("Hello &{ Company.Name }.")); // Hello Google.
 
+// Rewrite all data
 builder.loadDataFromObject({
   Company: {
     Name: "Microsoft",
   },
 });
 
-console.log(builder.build("Hello, &{Company.Name}.")); // Hello, Microsoft.
+// Padding inside brackets is optional
+console.log(builder.build("Hello &{Company.Name}.")); // Hello Microsoft.
 
 builder.assignDataFromObject({
   Team: {
@@ -27,7 +29,11 @@ builder.assignDataFromObject({
   },
 });
 
-console.log(builder.build("Hello, &{ Team.Lead }.")); // Hello, Jhon.
+console.log(builder.build("Hello &{ Team.Lead }.")); // Hello Jhon.
+
+builder.assignDataFromFile("animals.json");
+
+console.log(builder.build("Hello &{ Cat.Name } from &{ Company.Name }")); // Hello Molly from Microsoft.
 ```
 
 #### meta.json
@@ -36,6 +42,17 @@ console.log(builder.build("Hello, &{ Team.Lead }.")); // Hello, Jhon.
 {
   "Company": {
     "Name": "Google"
+  }
+}
+
+```
+
+#### animals.json
+
+```js
+{
+  "Cat": {
+    "Name": "Molly"
   }
 }
 
