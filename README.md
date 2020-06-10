@@ -5,7 +5,7 @@ Simple string builder.
 ### Example
 
 ```ts
-import StringBuilder from "https://deno.land/x/string-builder/mod.ts";
+import StringBuilder from "https://deno.land/x/stringBuilder/mod.ts";
 
 const builder = new StringBuilder();
 
